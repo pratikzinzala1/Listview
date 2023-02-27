@@ -18,15 +18,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val myDataset = Datasource().loadAffirmations()
 
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerview.layoutManager = layoutManager
-        binding.recyclerview.adapter = ItemAdapter(this, myDataset)
-
-
-        binding.recyclerview.setHasFixedSize(true)
 
     }
 

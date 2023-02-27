@@ -1,23 +1,32 @@
 package com.example.listview.adapter
 
-import android.annotation.SuppressLint
+
 import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+
+import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listview.R
+import com.example.listview.fragment.listfragmentDirections
 import com.example.listview.model.Affirmation
-import java.security.AccessController.getContext
-import kotlin.properties.Delegates
 
-class ItemAdapter(private val context: Context, private val dataset: List<Affirmation>) :
+
+class ItemAdapter(
+    private val context: Context,
+    private val dataset: List<Affirmation>,
+    private var navController: NavController,
+) :
     RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
 
@@ -31,6 +40,8 @@ class ItemAdapter(private val context: Context, private val dataset: List<Affirm
         val increase_decrease_layout: LinearLayout =
             view.findViewById(R.id.increase_decrease_layout)
         val add_to_favourite: ImageView = view.findViewById(R.id.add_to_favourite)
+        val mainviewe: ConstraintLayout = view.findViewById(R.id.mainview)
+        val product_image: ImageView = view.findViewById(R.id.product_image)
 
 
     }
@@ -45,13 +56,26 @@ class ItemAdapter(private val context: Context, private val dataset: List<Affirm
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
         var numberofitem = 0
-        var favourite:Boolean = false
+        var favourite: Boolean = false
+
+        holder.product_image.transitionName = "image_small_$position"
+
+        holder.product_image.setOnClickListener {
+            val extras = FragmentNavigatorExtras(holder.product_image to "image_big_$position")
+            navController.navigate(
+                listfragmentDirections.actionListfragmentToItemdetailfragment("image_big_$position"),
+                extras
+            )
+
+        }
 
         if (numberofitem <= 0)
             showAddToCartlayout(holder)
         holder.add_to_cart_button.setOnClickListener {
             numberofitem++
             showIncreaseDecreaseLayout(holder)
+            holder.product_item_count.text = numberofitem.toString()
+
         }
         holder.item_increase_button.setOnClickListener {
             numberofitem++
@@ -76,7 +100,6 @@ class ItemAdapter(private val context: Context, private val dataset: List<Affirm
 
 
     }
-
 
 
     private fun showAddToCartlayout(holder: ItemViewHolder) {
