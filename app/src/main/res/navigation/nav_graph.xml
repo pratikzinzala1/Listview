@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listfragment"
-        android:name="com.example.listview.fragment.listfragment"
+        android:name="com.example.listview.fragment.listfragment.listfragment"
         android:label="fragment_listfragment"
         tools:layout="@layout/fragment_listfragment" >
         <action
@@ -16,11 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/itemdetailfragment"
-        android:name="com.example.listview.fragment.itemdetailfragment"
+        android:name="com.example.listview.fragment.itemdetailviewmodel.itemdetailfragment"
         android:label="fragment_itemdetailfragment"
         tools:layout="@layout/fragment_itemdetailfragment" >
+
         <argument
             android:name="sharedelement"
-            app:argType="string" />
+            app:argType="string[]" />
     </fragment>
 </navigation>
